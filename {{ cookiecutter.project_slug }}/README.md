@@ -4,6 +4,9 @@
 
 \# TODO: a brief overview.
 
+This bird was raised by [The Hatchery][the-hatchery].
+Please contribute changes upstream to help raise more birds!
+
 ## Set up
 
 You will need `Pipenv` for managing the python dependencies.
@@ -63,3 +66,4 @@ STAGE=prod aws-vault exec fo -- make deploy
 ```
 
 [aws-vault]: https://github.com/99designs/aws-vault
+[the-hatchery]: https://github.com/FundingOptions/hatchery
