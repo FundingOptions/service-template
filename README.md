@@ -4,6 +4,12 @@ Hatchery provides a [Cookiecutter][cookiecutter] template for quickly generating
 
 _Note_: This is relatively new and untested. Bolivian Tree Lizards may reside here.
 
+## Usage
+
+- [Install Cookiecutter][cookiecutter-install]
+- Run `cookiecutter git+ssh://git@github.com/FundingOptions/hatchery.git`
+- Fill in your project details
+
 ## What is included here
 
 This currently provides a thin template for Python projects, and makes minimal assumptions as for the
@@ -125,6 +131,7 @@ Some tools that I'd like to look into going forward:
 
 
 [cookiecutter]: https://cookiecutter.readthedocs.io/en/latest/
+[cookiecutter-install]: https://cookiecutter.readthedocs.io/en/latest/installation.html
 [black]: https://github.com/psf/black
 [gitignore.io]: https://gitignore.io/
 [editorconfig]: https://editorconfig.org/
