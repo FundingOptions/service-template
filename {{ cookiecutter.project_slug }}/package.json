@@ -1,0 +1,17 @@
+{
+  "name": "{{ cookiecutter.project_slug }}",
+  "description": "{{ cookiecutter.project_name }}",
+  "private": true,
+  "scripts": {
+    "serverless": "serverless",
+    "sls": "sls"
+  },
+  "devDependencies": {
+    "serverless": "^1.53.0",
+    {%- if cookiecutter.app_type == 'web' %}
+    "serverless-certificate-creator": "^1.2.0",
+    "serverless-domain-manager": "^3.3.0",
+    {%- endif %}
+    "serverless-python-requirements": "^5.0.0"
+  }
+}

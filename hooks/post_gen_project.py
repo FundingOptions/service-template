@@ -5,8 +5,18 @@ except ImportError:
     # python 3
     from urllib.request import Request, urlopen
 
+import os
+import shutil
+
 
 GITIGNORE_FILE = '.gitignore'
+IS_SERVERLESS = '{{cookiecutter.hosting_type}}' == 'serverless'
+
+CONDITIONAL_FILES = {
+    'serverless.yml': IS_SERVERLESS,
+    'package.json': IS_SERVERLESS,
+    '{{cookiecutter.project_slug}}/lambda_handler.py': IS_SERVERLESS,
+}
 
 
 def fetch_gitignore(languages='python'):
@@ -25,4 +35,23 @@ def generate_gitignore(languages='python'):
         f.write(contents)
 
 
-generate_gitignore()
+def remove(filename):
+    filepath = os.path.join(os.getcwd(), '{{cookiecutter.project_slug}}', filename)
+    if os.path.isfile(filepath):
+        os.remove(filepath)
+    elif os.path.isdir(filepath):
+        shutil.rmtree(filepath)
+
+
+def remove_conditional_files():
+    for filename, keep_condition in CONDITIONAL_FILES.items():
+        if not keep_condition:
+            remove(filename)
+
+
+if IS_SERVERLESS:
+    generate_gitignore(languages='python,node,serverless')
+else:
+    generate_gitignore()
+
+remove_conditional_files()
