@@ -1,0 +1,84 @@
+{%- if cookiecutter.hosting_type == 'serverless' -%}
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: {{ cookiecutter.project_slug }}
+
+plugins:
+  - serverless-python-requirements
+{%- if cookiecutter.app_type == 'web' %}
+  - serverless-certificate-creator
+  - serverless-domain-manager
+{%- endif %}
+
+provider:
+  name: aws
+  runtime: python{{ cookiecutter.python_version }}
+  stage: ${opt:stage, 'dev'}
+  region: eu-west-1
+  memory: 128
+  timeout: 30
+  endpointType: REGIONAL
+  apiKeys:
+    - "{{ cookiecutter.project_slug }}-${self:provider.stage}"
+  tracing:
+    apiGateway: true
+    lambda: true
+  logs:
+    restApi: true
+  tags:
+    service: "${self:service}"
+    managedBy: serverless
+    stage: "${self:provider.stage}"
+
+package:
+  exclude:
+    - '**/*'
+  include:
+    - './{{ cookiecutter.project_slug }}/**'
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+  {%- if cookiecutter.app_type == 'web' %}
+  app:
+    domain: "{{ cookiecutter.project_slug }}.${self:provider.stage}.service.fundingoptions.com"
+  customDomain:
+    domainName: "${self:custom.app.domain}"
+    certificateName: "${self:custom.app.domain}"
+    endpointType: regional
+    createRoute53Record: true
+    basePath: ""
+  customCertificate:
+    certificateName: "${self:custom.app.domain}"
+    idempotencyToken: "{{ cookiecutter.project_slug }}${self:provider.stage}"
+    hostedZoneName: "fundingoptions.com."
+    region: ${self:provider.region}
+  {%- endif %}
+
+functions:
+  main:
+    handler: {{ cookiecutter.project_slug }}.lambda_handler.handler
+    {%- if cookiecutter.app_type == 'web' %}
+    events:
+      - http:
+          path: /
+          method: ANY
+          private: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          private: true
+    {%- endif -%}
+
+{%- endif %}
