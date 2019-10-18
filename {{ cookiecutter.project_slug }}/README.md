@@ -9,8 +9,12 @@ Please contribute changes upstream to help raise more birds!
 
 ## Set up
 
-You will need `Pipenv` for managing the python dependencies.
-a `Makefile` is used to make sure your dependencies are up to date:
+You will need [Pipenv][pipenv] for managing the python dependencies.
+```
+pip install --user pipenv
+```
+
+A `Makefile` is used to make sure your dependencies are up to date:
 
 `make install` will do everything you need.
 
@@ -99,3 +103,4 @@ STAGE=prod aws-vault exec fo -- make deploy
 [the-hatchery]: https://github.com/FundingOptions/hatchery
 [serverless]: https://serverless.com/
 [node]: https://nodejs.org/
+[pipenv]: https://pipenv.kennethreitz.org/en/latest/
