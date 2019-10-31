@@ -10,6 +10,7 @@ Please contribute changes upstream to help raise more birds!
 ## Set up
 
 You will need [Pipenv][pipenv] for managing the python dependencies.
+Follow the [install][pipenv-install] instructions, or just run:
 ```
 pip install --user pipenv
 ```
@@ -104,3 +105,4 @@ STAGE=prod aws-vault exec fo -- make deploy
 [serverless]: https://serverless.com/
 [node]: https://nodejs.org/
 [pipenv]: https://pipenv.kennethreitz.org/en/latest/
+[pipenv-install]: https://pipenv.kennethreitz.org/en/latest/install/#installing-pipenv
