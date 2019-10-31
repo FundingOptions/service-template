@@ -1,8 +1,9 @@
 STAGE ?= dev
 RUN_IN_PIPENV ?= true
 
+pipenv = PIPENV_DEV=1 pipenv
 ifeq ($(RUN_IN_PIPENV), true)
-	run = PIPENV_DEV=1 pipenv run --
+	run = $(pipenv) run --
 else
 	run =
 endif
@@ -19,8 +20,8 @@ setup: install
 
 .PHONY: python-install
 python-install:  ## Installs your python dependencies
-	pipenv clean
-	pipenv sync
+	$(pipenv) clean
+	$(pipenv) sync
 
 .PHONY: install-deploy-deps
 install-deploy-deps:  ## Installs dependencies for deploying
@@ -31,7 +32,7 @@ install-deploy-deps:  ## Installs dependencies for deploying
 .PHONY: upgrade
 upgrade: ## updates all your dependencies (regenerates the lock files)
 upgrade:
-	pipenv update
+	$(pipenv) update
 
 ##@ Code Checks
 

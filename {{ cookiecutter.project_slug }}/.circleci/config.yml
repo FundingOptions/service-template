@@ -1,7 +1,7 @@
-version: '2.1'
+version: "2.1"
 
 x-docker-config: &x-docker-config
-  image: circleci/python:3.7.4
+  image: circleci/python:3.7.5
   environment:
     PIPENV_VENV_IN_PROJECT: "yes"
 
@@ -62,7 +62,7 @@ jobs:
       - checkout
       - deploy:
           env: dev
-  
+
   deploy-production:
     docker:
       - *x-docker-config
@@ -82,7 +82,7 @@ commands:
       - run:
           name: Install dependencies
           command: |
-            pip install -U pip wheel setuptools pipenv
+            sudo pip install -U pip wheel setuptools pipenv
             make install
       - save_cache:
           paths:
