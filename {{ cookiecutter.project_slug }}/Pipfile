@@ -10,7 +10,7 @@ python_version = "{{ cookiecutter.python_version }}"
 
 [dev-packages]
 # black is pinned as it's a pre-release package
-black = "==19.3b0"
+black = "==19.10b0"
 autoflake = "*"
 isort = "*"
 faker = "*"
