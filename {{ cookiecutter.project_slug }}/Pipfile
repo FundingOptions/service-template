@@ -7,6 +7,8 @@ verify_ssl = true
 python_version = "{{ cookiecutter.python_version }}"
 
 [packages]
+sentry-sdk = "*"
+aws-xray-sdk = "*"
 
 [dev-packages]
 # black is pinned as it's a pre-release package
