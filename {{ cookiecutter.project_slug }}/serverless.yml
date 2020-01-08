@@ -40,6 +40,11 @@ provider:
     service: "${self:service}"
     managedBy: serverless
     stage: "${self:provider.stage}"
+  environment:
+    APP_NAME: "${self:service}"
+    APP_STAGE: "${self:provider.stage}"
+    SENTRY_DSN: ""
+    XRAY_ENABLED: "${self:provider.tracing.lambda}"
 
 package:
   exclude:
