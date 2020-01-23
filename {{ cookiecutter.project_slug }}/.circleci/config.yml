@@ -1,7 +1,7 @@
-version: "2.1"
+version: 2.1
 
 x-docker-config: &x-docker-config
-  image: circleci/python:3.7.5
+  image: "circleci/python:{{ cookiecutter.python_version }}"
   environment:
     PIPENV_VENV_IN_PROJECT: "yes"
 
