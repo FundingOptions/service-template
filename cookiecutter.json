@@ -1,7 +1,17 @@
 {
     "project_name": "Python Boilerplate",
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
-    "python_version": ["3.7"],
-    "hosting_type": ["serverless", "unknown"],
-    "app_type": ["web", "sns", "unknown"]
+    "python_version": [
+        "3.8",
+        "3.7"
+    ],
+    "hosting_type": [
+        "serverless",
+        "unknown"
+    ],
+    "app_type": [
+        "web",
+        "sns",
+        "unknown"
+    ]
 }
