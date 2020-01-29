@@ -29,13 +29,19 @@ provider:
   memory: 128
   timeout: 30
   endpointType: REGIONAL
+  {%- if cookiecutter.app_type == 'web' %}
   apiKeys:
     - "{{ cookiecutter.project_slug }}-${self:provider.stage}"
+  {%- endif %}
   tracing:
+    {%- if cookiecutter.app_type == 'web' %}
     apiGateway: true
+    {%- endif %}
     lambda: true
+  {%- if cookiecutter.app_type == 'web' %}
   logs:
     restApi: true
+  {%- endif %}
   tags:
     service: "${self:service}"
     managedBy: serverless
