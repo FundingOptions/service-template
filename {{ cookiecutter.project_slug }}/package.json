@@ -7,11 +7,11 @@
     "sls": "sls"
   },
   "devDependencies": {
-    "serverless": "^1.53.0",
+    "serverless": "*",
     {%- if cookiecutter.app_type == 'web' %}
-    "serverless-certificate-creator": "^1.2.0",
-    "serverless-domain-manager": "^3.3.0",
+    "serverless-certificate-creator": "*",
+    "serverless-domain-manager": "*",
     {%- endif %}
-    "serverless-python-requirements": "^5.0.0"
+    "serverless-python-requirements": "*"
   }
 }
