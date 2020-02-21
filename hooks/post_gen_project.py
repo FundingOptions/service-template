@@ -16,6 +16,7 @@ CONDITIONAL_FILES = {
     'serverless.yml': IS_SERVERLESS,
     'package.json': IS_SERVERLESS,
     '{{cookiecutter.project_slug}}/lambda_handler.py': IS_SERVERLESS,
+    '{{cookiecutter.project_slug}}/tests/test_lambda_handler.py': IS_SERVERLESS,
 }
 
 
