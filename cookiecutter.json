@@ -4,9 +4,6 @@
   "python_version": [
     "3.8"
   ],
-  "hosting_type": [
-    "serverless"
-  ],
   "is_web_app": [
     true,
     false

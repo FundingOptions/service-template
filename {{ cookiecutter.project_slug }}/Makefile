@@ -25,9 +25,7 @@ python-install:  ## Installs your python dependencies
 
 .PHONY: install-deploy-deps
 install-deploy-deps:  ## Installs dependencies for deploying
-{%- if cookiecutter.hosting_type == 'serverless' %}
 	npm install
-{%- endif %}
 
 .PHONY: upgrade
 upgrade: ## updates all your dependencies (regenerates the lock files)
@@ -67,7 +65,6 @@ lint:
 
 ##@ Deployment
 
-{%- if cookiecutter.hosting_type == 'serverless' %}
 SLS = npm run sls --
 
 .PHONY: deploy
@@ -86,13 +83,6 @@ setup-domain:  # oneshot command for setting up a certificate and custom domain
 setup-domain:
 	$(SLS) --stage '$(STAGE)' create-cert
 	$(SLS) --stage '$(STAGE)' create_domain
-{%- endif %}
-
-{%- else %}
-.PHONY: deploy
-deploy: ## Deploys the code to `STAGE`
-deploy:
-	STAGE='$(STAGE)' echo "${STAGE}"
 {%- endif %}
 
 ##@ Helpers

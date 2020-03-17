@@ -10,12 +10,9 @@ import shutil
 
 
 GITIGNORE_FILE = '.gitignore'
-IS_SERVERLESS = '{{cookiecutter.hosting_type}}' == 'serverless'
 IS_WEB_APP = '{{cookiecutter.is_web_app}}'.lower() == 'true'
 
 CONDITIONAL_FILES = {
-    'serverless.yml': IS_SERVERLESS,
-    'package.json': IS_SERVERLESS,
     '{{cookiecutter.project_slug}}/lambda_handler.py': not IS_WEB_APP,
     'tests/test_lambda_handler.py': not IS_WEB_APP,
     '{{cookiecutter.project_slug}}/web/': IS_WEB_APP,

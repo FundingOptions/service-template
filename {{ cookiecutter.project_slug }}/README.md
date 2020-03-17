@@ -69,8 +69,6 @@ into a `.env` file.
 
 ## How to deploy
 
-{%- if cookiecutter.hosting_type == 'serverless' %}
-
 ### Overview
 
 {{ cookiecutter.project_name }} is deployed using [serverless][serverless].
@@ -93,15 +91,6 @@ make install-deploy-deps
 # OR
 npm install
 ```
-
-{%- else %}
-### Setup
-
-You will need to install these dependencies to deploy:
-
-- \#TODO: we have different dpeloy techniques, fill in which one is used here
-
-{%- endif %}
 
 ### Running
 
