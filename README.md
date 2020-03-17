@@ -12,13 +12,13 @@ _Note_: This is relatively new and untested. Bolivian Tree Lizards may reside he
 
 ## What is included here
 
-This currently provides a thin template for Python projects, and makes minimal assumptions as for the
-type of project you will be making.
+This currently provides a thin template for Python projects.
+At its core, it provides tooling configuration, and a task runner.
 
-That is to say, it does not generate a Django, Flask, or `<insert-framework/>` project. It's about
-generating our base config files, dependency management, and task runner.
-
-At a later point, we may add framework generation.
+By extension, it provides configuration for hosting on AWS Lambda, including:
+- deployment routines
+- app structure (basic, web)
+- bootstraping of Sentry + AWS X-Ray
 
 ### Frontend
 
@@ -112,13 +112,77 @@ A generic workflow has been created, that Tests, Lints, and deploys your code.
 
 CircleCI was chosen as it's easy to setup, and doesn't require us to self-host.
 
+### Diagnosis
+
+assuming you are making a Serverless application, Hatchery configures a few useful tools out of the box for us.
+
+#### Sentry
+
+Sentry is initialised out of the box, and loads the Lambda Integration to provide additional context to error reporting.
+
+Useful for knowing when we get critical errors within the application, or logging warnings about potential future problems.
+
+#### AWS X-Ray
+
+X-Ray provides tracing to us, including:
+- All outgoing requests, including destination + timings
+- `boto3` usage (AWS SDK)
+- Database connections + queries (sqlalchemy integration)
+
+The traces join together with traces from other services, to give us a full service map of everything going on.
+
+Useful for verifying services interact correctly, and for gathering timing stats on arbitrary branches.
+
+### Web
+
+We recommend using [FastAPI][fastapi] in Hatchery Projects going forward. There are a few reasons as to why it's been used for recent projects:
+
+#### Doc Generation
+
+The design of FastAPI results in the need to create models to represent and validate our request and response structures.
+That is to say, we need to declare what's actually going to be returned to the user.
+
+This means that documentation can be generated from what amounts to be our domain objects.
+An example of this is in the [ibis][ibis-docs] project.
+
+#### Simple Controllers
+
+FastAPI takes inspiration from Flask, to allow us to define plain controllers.
+
+It does this by use of [type hints][type-hints]. a Query parameter is defined as part of a normal signature.
+
+The bellow allows for:
+- a GET requests to be sent to `/hello/`
+- an optional param `name`, which defaults to the string `"World"`
+- a required param `age`, which must be an integer
+- returns a JSON object of `Hello="{name}", age={age}`
+
+```py
+@api.get("/hello/")
+def hello(age: int, name: str = "World"):
+  return {"Hello": name, "age": age}
+```
+
+#### Extensive Validation
+
+The key to clean, stable code is to ensure you always have what you expect.
+
+FastAPI, by use of [pydantic][pydantic], has first line support for validating incoming requests and responses.
+
+This is very good, but can take a bit of getting used to:
+- Provided you define your expectations, you will never receive an invalid request
+- Provided you have defined your Domain objects well, you will never give an invalid response
+
+The result is the burden of ensuring you're in the correct state is up front. Provided you have layered your application
+well, and are not just doing "happy path" testing, you'll catch most of your issues before you go live.
+
+#### Future: Support for GraphQL
+
+There's been a lot of talk about GraphQL, especially now we're using Gatsby on the frontend.
+As FastAPI provides support for GraphQL, and Pydantic has a plugin to also support schema generation, it could
+be a good starting point in the future.
+
 ### Future
-
-#### Frameworks
-
-With an increased focus on Micro-services, it'd make sense to set up support for Flask, Chalice, or `<insert-framework/>`.
-
-Once we've settled on a structure for each framework, we can look at integrating it into the Hatchery.
 
 #### Tools
 
@@ -136,3 +200,7 @@ Some tools that I'd like to look into going forward:
 [gitignore.io]: https://gitignore.io/
 [editorconfig]: https://editorconfig.org/
 [editorconfig-plugins]: https://editorconfig.org/#download
+[ibis-docs]: https://ibis.dev.service.fundingoptions.com/redoc
+[type-hints]: https://docs.python.org/3/library/typing.html
+[pydantic]: https://pydantic-docs.helpmanual.io/
+[fastapi]: https://fastapi.tiangolo.com/

@@ -34,6 +34,15 @@ upgrade: ## updates all your dependencies (regenerates the lock files)
 upgrade:
 	$(pipenv) update
 
+{%- if cookiecutter.is_web_app %}
+##@ Execution
+
+.PHONY: serve
+serve:  ## Runs the server
+serve:
+	$(run) uvicorn {{ cookiecutter.project_slug }}.web.app:app --reload
+{%- endif %}
+
 ##@ Code Checks
 
 .PHONY: test
@@ -71,7 +80,7 @@ code-deploy:  ## Code Only deploy to `STAGE`
 code-deploy:
 	$(SLS) deploy function --stage '$(STAGE)' --function main
 
-{%- if cookiecutter.app_type == 'web' %}
+{%- if cookiecutter.is_web_app %}
 .PHONY: setup-domain
 setup-domain:  # oneshot command for setting up a certificate and custom domain
 setup-domain:

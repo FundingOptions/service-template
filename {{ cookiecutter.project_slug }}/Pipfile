@@ -9,6 +9,8 @@ python_version = "{{ cookiecutter.python_version }}"
 [packages]
 sentry-sdk = "*"
 aws-xray-sdk = "*"
+fastapi = "*"
+mangum = "*"
 
 [dev-packages]
 # black is pinned as it's a pre-release package
@@ -19,3 +21,4 @@ faker = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-randomly = "*"
+uvicorn = "*"
