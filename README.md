@@ -8,7 +8,7 @@ _Note_: This is relatively new and untested. Bolivian Tree Lizards may reside he
 
 - [Install Cookiecutter][cookiecutter-install]
 - Run `cookiecutter git+ssh://git@github.com/FundingOptions/hatchery.git`
-- Fill in your project details
+- Fill in the project details
 
 ## What is included here
 
@@ -23,7 +23,7 @@ By extension, it provides configuration for hosting on AWS Lambda, including:
 ### Frontend
 
 Sorry, nothing here yet.
-It might be you want to look into something `node` specific, so we've not imposed anything for you here.
+It might be we want to look into something `node` specific, so we've not imposed anything for us here.
 
 ### Testing
 
@@ -34,7 +34,7 @@ Also looks much cleaner than `unittest`.
 
 #### pytest-cov
 
-Coverage support for `pytest`. Best used as an indicator that you have untested code.
+Coverage support for `pytest`. Best used as an indicator that we have untested code.
 **Always remember that covered code doesn't mean it's tested**
 
 #### pytest-randomly
@@ -49,17 +49,17 @@ Generates seeds for Python's `random` module, `faker`, and also forces tests to 
 Instead of using static data repeated everywhere, try to use generated data as much as possible.
 
 This will:
-- prevent "slimey" implementations, where your implementation isn't flexible enough in the real world
-- force more code into fixtures, which thins out your actual test code
+- prevent "slimey" implementations, where the implementation isn't flexible enough in the real world
+- force more code into fixtures, which thins out actual test code, and makes data declarative
 
-A pytest fixture has been configured for you.
+A pytest fixture has been configured, named `faker`.
 
 ### Linting
 
 #### black
 
 [The uncompromising formatter][black].
-This takes `PEP8`, applies some opinions onto it, then just formats your code. Safely.
+This takes `PEP8`, applies some opinions onto it, then just formats the code. Safely.
 
 This was selected as "It Just Works", and is relatively stable. It's also been adopted by the PSF
 
@@ -108,13 +108,13 @@ See [here][editorconfig-plugins] to see if your editor is supported.
 
 #### .circleci/config.yml
 
-A generic workflow has been created, that Tests, Lints, and deploys your code.
+A generic workflow has been created, that Tests and Lints.
 
 CircleCI was chosen as it's easy to setup, and doesn't require us to self-host.
 
 ### Diagnosis
 
-assuming you are making a Serverless application, Hatchery configures a few useful tools out of the box for us.
+Hatchery configures a few useful tools out of the box for us to help diagnose bugs we have, whether silent or loud.
 
 #### Sentry
 
@@ -165,16 +165,16 @@ def hello(age: int, name: str = "World"):
 
 #### Extensive Validation
 
-The key to clean, stable code is to ensure you always have what you expect.
+The key to clean, stable code is to ensure we always have what we expect.
 
 FastAPI, by use of [pydantic][pydantic], has first line support for validating incoming requests and responses.
 
 This is very good, but can take a bit of getting used to:
-- Provided you define your expectations, you will never receive an invalid request
-- Provided you have defined your Domain objects well, you will never give an invalid response
+- Provided we define our expectations, we will never receive an invalid request
+- Provided we have defined our Domain objects well, we will never give an invalid response
 
-The result is the burden of ensuring you're in the correct state is up front. Provided you have layered your application
-well, and are not just doing "happy path" testing, you'll catch most of your issues before you go live.
+The result is the burden of ensuring we're in the correct state is up front. Provided the application is layered
+well, and the only tests are not just following the "happy path", we'll catch most of the issues before go live.
 
 #### Future: Support for GraphQL
 
