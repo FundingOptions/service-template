@@ -49,9 +49,5 @@ def remove_conditional_files():
             remove(filename)
 
 
-if IS_SERVERLESS:
-    generate_gitignore(languages='python,node,serverless')
-else:
-    generate_gitignore()
-
+generate_gitignore(languages='python,node,serverless')
 remove_conditional_files()
