@@ -33,9 +33,41 @@ To fix any linting issues, run:
 make fixlint
 ```
 
-## How to deploy
+## Testing
 
-{%- if cookiecutter.hosting_type == 'serverless' %}
+Testing is as simple as running:
+
+```
+make test
+```
+
+This will run the pytest suite.
+Note that there are 2 important plugins loaded as part of this:
+
+- pytest-cov
+  Generates a coverage report of the tests
+- pytest-randomly
+  Ensures that tests don't always run in the same order (prevents order dependent tests)
+
+{%- if cookiecutter.is_web_app %}
+## Running locally
+
+For development purposes, `uvicorn` has been setup to run a local server.
+The server will reload whenever you change a file, allowing for quickly checking behaviour.
+
+run using:
+```
+make serve
+```
+
+### Configuring
+
+Any configurations should go in via environment variables.
+If you're using the `make` commands, or using `pipenv`, you can load up your variables
+into a `.env` file.
+{%- endif %}
+
+## How to deploy
 
 ### Overview
 
@@ -59,15 +91,6 @@ make install-deploy-deps
 # OR
 npm install
 ```
-
-{%- else %}
-### Setup
-
-You will need to install these dependencies to deploy:
-
-- \#TODO: we have different dpeloy techniques, fill in which one is used here
-
-{%- endif %}
 
 ### Running
 

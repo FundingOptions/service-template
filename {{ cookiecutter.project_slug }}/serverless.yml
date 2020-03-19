@@ -1,4 +1,3 @@
-{%- if cookiecutter.hosting_type == 'serverless' -%}
 # Welcome to Serverless!
 #
 # This file is the main config file for your service.
@@ -16,7 +15,7 @@ service: {{ cookiecutter.project_slug }}
 
 plugins:
   - serverless-python-requirements
-{%- if cookiecutter.app_type == 'web' %}
+{%- if cookiecutter.is_web_app %}
   - serverless-certificate-creator
   - serverless-domain-manager
 {%- endif %}
@@ -29,16 +28,16 @@ provider:
   memory: 128
   timeout: 30
   endpointType: REGIONAL
-  {%- if cookiecutter.app_type == 'web' %}
+  {%- if cookiecutter.is_web_app %}
   apiKeys:
     - "{{ cookiecutter.project_slug }}-${self:provider.stage}"
   {%- endif %}
   tracing:
-    {%- if cookiecutter.app_type == 'web' %}
+    {%- if cookiecutter.is_web_app %}
     apiGateway: true
     {%- endif %}
     lambda: true
-  {%- if cookiecutter.app_type == 'web' %}
+  {%- if cookiecutter.is_web_app %}
   logs:
     restApi: true
   {%- endif %}
@@ -61,7 +60,7 @@ package:
 custom:
   pythonRequirements:
     dockerizePip: true
-  {%- if cookiecutter.app_type == 'web' %}
+  {%- if cookiecutter.is_web_app %}
   app:
     domain: "{{ cookiecutter.project_slug }}.${self:provider.stage}.service.fundingoptions.com"
   customDomain:
@@ -79,8 +78,8 @@ custom:
 
 functions:
   main:
-    handler: {{ cookiecutter.project_slug }}.lambda_handler.handler
-    {%- if cookiecutter.app_type == 'web' %}
+    {%- if cookiecutter.is_web_app %}
+    handler: {{ cookiecutter.project_slug }}.web.lambda_entry.handler
     events:
       - http:
           path: /
@@ -90,6 +89,6 @@ functions:
           path: /{proxy+}
           method: ANY
           private: true
+    {%- else -%}
+    handler: {{ cookiecutter.project_slug }}.lambda_handler.handler
     {%- endif -%}
-
-{%- endif %}

@@ -25,14 +25,21 @@ python-install:  ## Installs your python dependencies
 
 .PHONY: install-deploy-deps
 install-deploy-deps:  ## Installs dependencies for deploying
-{%- if cookiecutter.hosting_type == 'serverless' %}
 	npm install
-{%- endif %}
 
 .PHONY: upgrade
 upgrade: ## updates all your dependencies (regenerates the lock files)
 upgrade:
 	$(pipenv) update
+
+{%- if cookiecutter.is_web_app %}
+##@ Execution
+
+.PHONY: serve
+serve:  ## Runs the server
+serve:
+	$(run) uvicorn {{ cookiecutter.project_slug }}.web.app:app --reload
+{%- endif %}
 
 ##@ Code Checks
 
@@ -58,7 +65,6 @@ lint:
 
 ##@ Deployment
 
-{%- if cookiecutter.hosting_type == 'serverless' %}
 SLS = npm run sls --
 
 .PHONY: deploy
@@ -71,19 +77,12 @@ code-deploy:  ## Code Only deploy to `STAGE`
 code-deploy:
 	$(SLS) deploy function --stage '$(STAGE)' --function main
 
-{%- if cookiecutter.app_type == 'web' %}
+{%- if cookiecutter.is_web_app %}
 .PHONY: setup-domain
 setup-domain:  # oneshot command for setting up a certificate and custom domain
 setup-domain:
 	$(SLS) --stage '$(STAGE)' create-cert
 	$(SLS) --stage '$(STAGE)' create_domain
-{%- endif %}
-
-{%- else %}
-.PHONY: deploy
-deploy: ## Deploys the code to `STAGE`
-deploy:
-	STAGE='$(STAGE)' echo "${STAGE}"
 {%- endif %}
 
 ##@ Helpers
