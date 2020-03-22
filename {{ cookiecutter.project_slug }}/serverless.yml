@@ -39,7 +39,8 @@ provider:
     lambda: true
   {%- if cookiecutter.is_web_app %}
   logs:
-    restApi: true
+    restApi:
+      roleManagedExternally: true
   {%- endif %}
   tags: &tags
     service: "${self:service}"
