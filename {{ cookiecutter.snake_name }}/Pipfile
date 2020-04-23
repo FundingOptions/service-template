@@ -1,5 +1,5 @@
 [[source]]
-name = "{{ cookiecutter.project_slug }}"
+name = "{{ cookiecutter.snake_name }}"
 url = "https://pypi.org/simple"
 verify_ssl = true
 

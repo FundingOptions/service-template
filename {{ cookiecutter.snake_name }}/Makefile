@@ -8,7 +8,7 @@ else
 	run =
 endif
 
-SRC_DIRS = {{ cookiecutter.project_slug }}
+SRC_DIRS = {{ cookiecutter.snake_name }}
 TEST_DIRS = tests
 
 ##@ bootup
@@ -38,7 +38,7 @@ upgrade:
 .PHONY: serve
 serve:  ## Runs the server
 serve:
-	$(run) uvicorn {{ cookiecutter.project_slug }}.web.app:app --reload
+	$(run) uvicorn {{ cookiecutter.snake_name }}.web.app:app --reload
 {%- endif %}
 
 ##@ Code Checks
