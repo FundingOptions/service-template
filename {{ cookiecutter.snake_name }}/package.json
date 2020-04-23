@@ -1,5 +1,5 @@
 {
-  "name": "{{ cookiecutter.project_slug }}",
+  "name": "{{ cookiecutter.kebab_name }}",
   "description": "{{ cookiecutter.project_name }}",
   "private": true,
   "scripts": {

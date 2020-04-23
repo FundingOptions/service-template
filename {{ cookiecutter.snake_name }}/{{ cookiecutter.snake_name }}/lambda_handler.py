@@ -1,4 +1,4 @@
-from {{ cookiecutter.project_slug }} import lambda_bootstrap
+from . import lambda_bootstrap
 
 lambda_bootstrap.init_all()
 

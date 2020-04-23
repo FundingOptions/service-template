@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: {{ cookiecutter.project_slug }}
+service: {{ cookiecutter.kebab_name }}
 
 plugins:
   - serverless-python-requirements
@@ -30,7 +30,7 @@ provider:
   endpointType: REGIONAL
   {%- if cookiecutter.is_web_app %}
   apiKeys:
-    - "{{ cookiecutter.project_slug }}-${self:provider.stage}"
+    - "${self:service}-${self:provider.stage}"
   {%- endif %}
   tracing:
     {%- if cookiecutter.is_web_app %}
@@ -57,14 +57,14 @@ package:
   exclude:
     - '**/*'
   include:
-    - './{{ cookiecutter.project_slug }}/**'
+    - './{{ cookiecutter.snake_name }}/**'
 
 custom:
   pythonRequirements:
     dockerizePip: true
   {%- if cookiecutter.is_web_app %}
   app:
-    domain: "{{ cookiecutter.project_slug }}.${self:provider.stage}.service.fundingoptions.com"
+    domain: "${self:service}.${self:provider.stage}.service.fundingoptions.com"
   customDomain:
     domainName: "${self:custom.app.domain}"
     certificateName: "${self:custom.app.domain}"
@@ -73,7 +73,7 @@ custom:
     basePath: ""
   customCertificate:
     certificateName: "${self:custom.app.domain}"
-    idempotencyToken: "{{ cookiecutter.project_slug }}${self:provider.stage}"
+    idempotencyToken: "{{ random_ascii_string(12) }}"  # random string, unique to this service
     hostedZoneName: "fundingoptions.com."
     region: ${self:provider.region}
   {%- endif %}
@@ -81,7 +81,7 @@ custom:
 functions:
   main:
     {%- if cookiecutter.is_web_app %}
-    handler: {{ cookiecutter.project_slug }}.web.lambda_entry.handler
+    handler: {{ cookiecutter.snake_name }}.web.lambda_entry.handler
     events:
       - http:
           path: /
@@ -92,5 +92,5 @@ functions:
           method: ANY
           private: true
     {%- else -%}
-    handler: {{ cookiecutter.project_slug }}.lambda_handler.handler
+    handler: {{ cookiecutter.snake_name }}.lambda_handler.handler
     {%- endif -%}

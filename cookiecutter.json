@@ -1,6 +1,7 @@
 {
   "project_name": "Python Boilerplate",
-  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "snake_name": "{{ cookiecutter.project_name | slugify(separator='_') }}",
+  "kebab_name": "{{ cookiecutter.project_name | slugify(separator='-') }}",
   "python_version": [
     "3.8"
   ],

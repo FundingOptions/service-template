@@ -13,9 +13,9 @@ GITIGNORE_FILE = '.gitignore'
 IS_WEB_APP = '{{cookiecutter.is_web_app}}'.lower() == 'true'
 
 CONDITIONAL_FILES = {
-    '{{cookiecutter.project_slug}}/lambda_handler.py': not IS_WEB_APP,
+    '{{cookiecutter.snake_name}}/lambda_handler.py': not IS_WEB_APP,
     'tests/test_lambda_handler.py': not IS_WEB_APP,
-    '{{cookiecutter.project_slug}}/web/': IS_WEB_APP,
+    '{{cookiecutter.snake_name}}/web/': IS_WEB_APP,
 }
 
 

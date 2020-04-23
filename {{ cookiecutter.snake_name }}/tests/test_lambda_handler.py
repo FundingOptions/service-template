@@ -1,4 +1,4 @@
-from {{ cookiecutter.project_slug }} import lambda_handler
+from {{ cookiecutter.snake_name }} import lambda_handler
 
 
 def test_handler_says_hello_to_the_world():
