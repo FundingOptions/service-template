@@ -15,6 +15,7 @@ service: {{ cookiecutter.kebab_name }}
 
 plugins:
   - serverless-python-requirements
+  - serverless-pseudo-parameters
 {%- if cookiecutter.is_web_app %}
   - serverless-certificate-creator
   - serverless-domain-manager
@@ -27,6 +28,7 @@ provider:
   region: eu-west-1
   memory: 128
   timeout: 30
+  role: "arn:aws:iam::#{AWS::AccountId}:role/fo-${self:provider.stage}-${self:service}-execution"
   endpointType: REGIONAL
   {%- if cookiecutter.is_web_app %}
   apiKeys:
