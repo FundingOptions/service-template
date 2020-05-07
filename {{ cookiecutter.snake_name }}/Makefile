@@ -1,7 +1,7 @@
 STAGE ?= dev
 RUN_IN_PIPENV ?= true
 
-pipenv = PIPENV_DEV=1 pipenv
+pipenv = PIPENV_IGNORE_VIRTUALENVS=1 PIPENV_DEV=1 pipenv
 ifeq ($(RUN_IN_PIPENV), true)
 	run = $(pipenv) run --
 else
