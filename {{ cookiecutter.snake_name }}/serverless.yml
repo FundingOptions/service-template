@@ -56,9 +56,16 @@ provider:
     XRAY_ENABLED: "${self:provider.tracing.lambda}"
 
 package:
+  # This relates to node applications only, where it strips dev dependencies.
+  excludeDevDependencies: false
+
   exclude:
     - '**/*'
   include:
+    # Serverless includes everything, then filters afterwards. And it's slow.
+    # Cancel out their inclusion of everything for a nice speedup.
+    # Also fixes cache busting in some cases.
+    - "!./**"
     - './{{ cookiecutter.snake_name }}/**'
 
 custom:
