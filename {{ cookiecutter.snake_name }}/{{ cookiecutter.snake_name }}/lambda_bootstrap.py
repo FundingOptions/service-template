@@ -4,6 +4,7 @@
 # of the context.
 # You usually want to initialise clients here, such as X-Ray, Boto, or Sentry.
 
+import logging
 import os
 
 import aws_xray_sdk
@@ -11,6 +12,7 @@ import sentry_sdk
 from aws_xray_sdk.core import patch_all as xray_patch_all
 from aws_xray_sdk.core import xray_recorder
 from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
+from sentry_sdk.integrations.logging import LoggingIntegration
 
 
 def init_all(**kwargs):
@@ -21,7 +23,11 @@ def init_all(**kwargs):
 def init_sentry(sentry_dsn=None, sentry_integrations=None, **_):
     sentry_sdk.init(
         dsn=sentry_dsn,
-        integrations=[AwsLambdaIntegration(), *(sentry_integrations or [])],
+        integrations=[
+            *(sentry_integrations or []),
+            AwsLambdaIntegration(),
+            LoggingIntegration(level=logging.DEBUG, event_level=logging.WARNING),
+        ],
         environment=os.environ.get("APP_STAGE"),
     )
 
