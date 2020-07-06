@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "serverless": "*",
-    {%- if cookiecutter.is_web_app %}
+    {%- if cookiecutter.is_web_app.lower() == 'true' %}
     "serverless-certificate-creator": "*",
     "serverless-domain-manager": "*",
     {%- endif %}

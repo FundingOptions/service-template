@@ -49,7 +49,7 @@ Note that there are 2 important plugins loaded as part of this:
 - pytest-randomly
   Ensures that tests don't always run in the same order (prevents order dependent tests)
 
-{%- if cookiecutter.is_web_app %}
+{%- if cookiecutter.is_web_app.lower() == 'true' %}
 ## Running locally
 
 For development purposes, `uvicorn` has been setup to run a local server.

@@ -32,7 +32,7 @@ upgrade: ## updates all your dependencies (regenerates the lock files)
 upgrade:
 	$(pipenv) update
 
-{%- if cookiecutter.is_web_app %}
+{%- if cookiecutter.is_web_app.lower() == 'true' %}
 ##@ Execution
 
 .PHONY: serve
@@ -77,7 +77,7 @@ code-deploy:  ## Code Only deploy to `STAGE`
 code-deploy:
 	$(SLS) deploy function --stage '$(STAGE)' --function main
 
-{%- if cookiecutter.is_web_app %}
+{%- if cookiecutter.is_web_app.lower() == 'true' %}
 .PHONY: setup-domain
 setup-domain:  # oneshot command for setting up a certificate and custom domain
 setup-domain:
