@@ -12,7 +12,6 @@
     "serverless-certificate-creator": "*",
     "serverless-domain-manager": "*",
     {%- endif %}
-    "serverless-pseudo-parameters": "*",
     "serverless-python-requirements": "*"
   }
 }
