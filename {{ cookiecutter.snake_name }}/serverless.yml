@@ -15,7 +15,7 @@ service: {{ cookiecutter.kebab_name }}
 
 plugins:
   - serverless-python-requirements
-{%- if cookiecutter.is_web_app %}
+{%- if cookiecutter.is_web_app.lower() == 'true' %}
   - serverless-certificate-creator
   - serverless-domain-manager
 {%- endif %}
@@ -29,16 +29,16 @@ provider:
   timeout: 30
   role: "${self:custom.deploy-context.execution-role}"
   endpointType: REGIONAL
-  {%- if cookiecutter.is_web_app %}
+  {%- if cookiecutter.is_web_app.lower() == 'true' %}
   apiKeys:
     - "${self:service}-${self:provider.stage}"
   {%- endif %}
   tracing:
-    {%- if cookiecutter.is_web_app %}
+    {%- if cookiecutter.is_web_app.lower() == 'true' %}
     apiGateway: true
     {%- endif %}
     lambda: true
-  {%- if cookiecutter.is_web_app %}
+  {%- if cookiecutter.is_web_app.lower() == 'true' %}
   logs:
     restApi:
       roleManagedExternally: true
@@ -88,7 +88,7 @@ package:
 custom:
   pythonRequirements:
     dockerizePip: true
-  {%- if cookiecutter.is_web_app %}
+  {%- if cookiecutter.is_web_app.lower() == 'true' %}
   app:
     domain: "${self:custom.deploy-context.service-domain}"
   customDomain:
@@ -108,7 +108,7 @@ custom:
 
 functions:
   main:
-    {%- if cookiecutter.is_web_app %}
+    {%- if cookiecutter.is_web_app.lower() == 'true' %}
     handler: {{ cookiecutter.snake_name }}.web.lambda_entry.handler
     events:
       - http:
