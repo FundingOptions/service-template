@@ -66,6 +66,9 @@ provider:
     managedBy: serverless
     stage: "${self:provider.stage}"
   stackTags: *tags
+  deploymentBucket:
+    name: "${self:custom.deploy-context.deploy-bucket}"
+
   environment:
     APP_NAME: "${self:service}"
     APP_STAGE: "${self:provider.stage}"
