@@ -14,7 +14,7 @@ mangum = "*"
 
 [dev-packages]
 # black is pinned as it's a pre-release package
-black = "==19.10b0"
+black = "==20.8b1"
 autoflake = "*"
 isort = "*"
 faker = "*"
