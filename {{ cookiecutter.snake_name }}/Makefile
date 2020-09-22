@@ -53,14 +53,14 @@ fixlint: autofix
 autofix: ## Attempts to rectify any linting issues
 autofix:
 	$(run) autoflake --in-place --remove-unused-variables --recursive $(SRC_DIRS) $(TEST_DIRS)
-	$(run) isort --recursive $(SRC_DIRS) $(TEST_DIRS)
+	$(run) isort $(SRC_DIRS) $(TEST_DIRS)
 	$(run) black $(SRC_DIRS) $(TEST_DIRS)
 
 .PHONY: lint
 lint: ## Checks the code for any style violations
 lint:
 	$(run) autoflake --check --remove-unused-variables --recursive $(SRC_DIRS) $(TEST_DIRS)
-	$(run) isort --check-only --recursive $(SRC_DIRS) $(TEST_DIRS)
+	$(run) isort --check-only $(SRC_DIRS) $(TEST_DIRS)
 	$(run) black --check $(SRC_DIRS) $(TEST_DIRS)
 
 ##@ Deployment
