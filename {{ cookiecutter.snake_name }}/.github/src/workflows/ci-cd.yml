@@ -1,0 +1,109 @@
+{% raw -%}
+name: CI/CD
+on:
+  pull_request:
+    branches-ignore:
+      # PRs to the release branch use the master branch tests.
+      # the master branch is always up to date (enforced)
+      # prevents other branches from hitting the release branch.
+      - release
+  push:
+    branches:
+      - master
+      - release
+
+runs-on: ubuntu-latest
+env:
+  PIPENV_VENV_IN_PROJECT: "yes"
+
+jobs:
+  test:
+    steps:
+      - uses: actions/checkout@v2
+      - command: setup-test-dependencies
+      - name: Run tests
+        run: make test
+
+  lint:
+    steps:
+      - uses: actions/checkout@v2
+      - command: setup-test-dependencies
+      - name: Run linting
+        run: make lint
+
+  deploy-dev:
+    if: github.ref == 'refs/heads/master'
+    needs: [test, lint]
+    steps:
+      - command: deploy
+        with:
+          stage: dev
+  deploy-prod:
+    if: github.ref == 'refs/heads/release'
+    needs: [test, lint]
+    steps:
+      - command: deploy
+        with:
+          stage: prod
+
+commands:
+  setup-test-dependencies:
+    steps:
+      - command: setup-python
+      - run: make install
+
+  setup-deploy-dependencies:
+    steps:
+      - command: setup-python
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+
+      - name: Install deploy dependencies
+        run: npm install
+
+  deploy:
+    inputs:
+      stage:
+    steps:
+      - uses: actions/checkout@v2
+      - command: setup-deploy-dependencies
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: "${{ secrets.CD_AWS_ACCESS_KEY_ID }}"
+          aws-secret-access-key: "${{ secrets.CD_AWS_SECRET_ACCESS_KEY }}"
+          aws-region: eu-west-1
+          role-to-assume: "fo-${{ inputs.stage }}-{%endraw%}{{ cookiecutter.kebab_name }}{%raw%}-deploy"
+          role-duration-seconds: 1200 # worried if it takes more than 20 minutes
+          role-session-name: "github-${{ inputs.stage }}-deploy-${{ github.run_id }}"
+
+      - name: "Deploy ${{ inputs.stage }}"
+        run: STAGE='${{ inputs.stage }}' make deploy
+
+  setup-python:
+    steps:
+      - uses: actions/setup-python@v2
+        id: python
+        with:
+          python-version: "{%endraw%}{{ cookiecutter.python_version }}{%raw%}"
+
+      - name: Install setup dependencies
+        run: pip install -U pip wheel setuptools pipenv
+
+      - name: Get cache targets
+        id: cache-targets
+        run: |
+          echo "::set-output name=pipenv-dir::$(python -c "import pipenv; print(pipenv.environments.PIPENV_CACHE_DIR, end='')")"
+
+      - uses: actions/cache@v2
+        name: Cache all the things
+        with:
+          path: |
+            ${{ steps.cache-targets.outputs.pipenv-dir }}
+            .venv
+          key: "${{ runner.os }}-${{ steps.python.outputs.python-version }}-pipenv-v1-${{ hashFiles('**/Pipfile.lock') }}"
+          restore-keys: |
+            ${{ runner.os }}-${{ steps.python.outputs.python-version }}-pipenv-v1-
+{%- endraw %}
