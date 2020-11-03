@@ -34,7 +34,6 @@ def generate_gitignore(languages='python'):
     with open(GITIGNORE_FILE, 'wb') as f:
         f.write(contents)
 
-
 def remove(filename):
     filepath = os.path.join(os.getcwd(), filename)
     if os.path.isfile(filepath):
@@ -49,5 +48,16 @@ def remove_conditional_files():
             remove(filename)
 
 
+def bootup_help():
+    print("")
+    print("#" * shutil.get_terminal_size().columns)
+    print("Thank you for using the Hatchery.")
+    print("To finish the setup, you will need to run 3 more commands from your new project.")
+    print("")
+    print("$ make install install-deploy-deps build-cd-workflow")
+    print("$ git add .; git commit -m 'chore: Initial Setup from gh:FundingOptions/hatchery'")
+
+
 generate_gitignore(languages='python,node,serverless')
 remove_conditional_files()
+bootup_help()
