@@ -32,6 +32,19 @@ upgrade: ## updates all your dependencies (regenerates the lock files)
 upgrade:
 	$(pipenv) update
 
+
+_workflows_src_dir := .github/src/workflows
+_workflows_src := $(wildcard $(_workflows_src_dir)/*.yml)
+_workflows_dir := .github/workflows
+_workflows := $(_workflows_src:$(_workflows_src_dir)/%.yml=$(_workflows_dir)/%.yml)
+
+$(_workflows_dir)/%.yml: $(_workflows_src_dir)/%.yml
+	$(run) python -m clean_actions '$<' '$@'
+
+build-cd-workflow:  ## Build the CD Workflows from .github/src/
+build-cd-workflow: $(_workflows)
+
+
 {%- if cookiecutter.is_web_app.lower() == 'true' %}
 ##@ Execution
 
@@ -40,6 +53,12 @@ serve:  ## Runs the server
 serve:
 	$(run) uvicorn {{ cookiecutter.snake_name }}.web.app:app --reload
 {%- endif %}
+
+.PHONY: shell
+shell:  ## Open a new shell under Pipenv
+shell:
+	$(pipenv) shell
+
 
 ##@ Code Checks
 
