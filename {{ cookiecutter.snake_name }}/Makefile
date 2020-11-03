@@ -41,8 +41,11 @@ _workflows := $(_workflows_src:$(_workflows_src_dir)/%.yml=$(_workflows_dir)/%.y
 $(_workflows_dir)/%.yml: $(_workflows_src_dir)/%.yml
 	$(run) python -m clean_actions '$<' '$@'
 
+_clean-workflows:
+	rm -f .github/workflows/*.yml
+
 build-cd-workflow:  ## Build the CD Workflows from .github/src/
-build-cd-workflow: $(_workflows)
+build-cd-workflow: _clean-workflows $(_workflows)
 
 
 {%- if cookiecutter.is_web_app.lower() == 'true' %}

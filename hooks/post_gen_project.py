@@ -55,7 +55,7 @@ def bootup_help():
     print("To finish the setup, you will need to run 3 more commands from your new project.")
     print("")
     print("$ make install install-deploy-deps build-cd-workflow")
-    print("$ git add .; git commit -m 'chore: Initial Setup from gh:FundingOptions/hatchery'")
+    print("$ git init; git add .; git commit -m 'chore: Initial Setup from gh:FundingOptions/hatchery'")
 
 
 generate_gitignore(languages='python,node,serverless')
