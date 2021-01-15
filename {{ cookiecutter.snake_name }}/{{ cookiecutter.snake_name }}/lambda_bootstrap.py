@@ -29,6 +29,7 @@ def init_sentry(sentry_dsn=None, sentry_integrations=None, **_):
             LoggingIntegration(level=logging.DEBUG, event_level=logging.WARNING),
         ],
         environment=os.environ.get("APP_STAGE"),
+        attach_stacktrace=True,
     )
 
 
