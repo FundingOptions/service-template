@@ -25,7 +25,7 @@ def init_sentry(sentry_dsn=None, sentry_integrations=None, **_):
         dsn=sentry_dsn,
         integrations=[
             *(sentry_integrations or []),
-            AwsLambdaIntegration(),
+            AwsLambdaIntegration(timeout_warning=True),
             LoggingIntegration(level=logging.DEBUG, event_level=logging.WARNING),
         ],
         environment=os.environ.get("APP_STAGE"),
