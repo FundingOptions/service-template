@@ -1,0 +1,5 @@
+* @FundingOptions/backend
+
+# deployment related files
+serverless.yml @FundingOptions/devops @FundingOptions/backend
+.github/ @FundingOptions/devops @FundingOptions/backend
