@@ -87,7 +87,7 @@ lint:
 
 ##@ Deployment
 
-SLS = npm run sls --
+SLS = PIPENV_DEV=0 npm run sls --
 
 .PHONY: deploy
 deploy: ## Full Deploy to `STAGE`
