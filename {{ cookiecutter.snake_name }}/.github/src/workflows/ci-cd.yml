@@ -95,7 +95,7 @@ commands:
       - name: Get cache targets
         id: cache-targets
         run: |
-          echo "::set-output name=pipenv-dir::$(python -c "import pipenv; print(pipenv.environments.PIPENV_CACHE_DIR, end='')")"
+          echo "::set-output name=pipenv-dir::$(python -c "import pipenv; print(pipenv.environments.Setting().PIPENV_CACHE_DIR, end='')")"
 
       - uses: actions/cache@v2
         name: Cache all the things
